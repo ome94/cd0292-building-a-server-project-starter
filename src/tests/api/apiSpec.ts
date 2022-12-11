@@ -11,7 +11,7 @@ describe('Test api route', () => {
     });
 
     it('Expect /api to return suggestive text.', async () => {
-      const hint = `please include an image with /api/imgages?filename=<imagename.jpg>`;
+      const hint = `please include an image`;
       const response = await request.get('/api');
       expect(response.text).toContain(hint);
     });

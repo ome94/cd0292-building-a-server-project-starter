@@ -14,12 +14,11 @@ describe('Test function resize()', () => {
   let originalHeight: number | undefined;
   let resizedHeight: number | undefined;
 
-  
   // user supplied width and height
-  const width: number | undefined = 300; 
+  const width: number | undefined = 300;
   const height: number | undefined = 150;
 
-  beforeAll (async () => {
+  beforeAll(async () => {
     filename = (await fs.readdir(fullImgDir))[0];
     image = sharp(path.join(fullImgDir, filename));
     originalWidth = (await image.metadata()).width;
@@ -32,7 +31,7 @@ describe('Test function resize()', () => {
       resizedWidth = (await resizedImg.metadata()).width;
       resizedHeight = (await resizedImg.metadata()).height;
     });
-    
+
     it('Expects resized image width to equal original image width', async () => {
       expect(resizedWidth).toEqual(originalWidth);
     });
@@ -42,13 +41,13 @@ describe('Test function resize()', () => {
     });
   });
 
-  describe(`Test resize('valid-file.jpg', ${width}, ${height})`,  () => {
+  describe(`Test resize('valid-file.jpg', ${width}, ${height})`, () => {
     beforeAll(async () => {
       resizedImg = sharp(await resize(filename, width, height));
       resizedWidth = (await resizedImg.metadata()).width;
       resizedHeight = (await resizedImg.metadata()).height;
     });
-    
+
     it(`Expects height to equal ${width}`, async () => {
       expect(resizedHeight).toEqual(height);
     });

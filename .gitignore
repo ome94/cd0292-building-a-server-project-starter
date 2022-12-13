@@ -1,33 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Codespaces
-Marketplace
-Explore
- 
-@ome94 
-ome94
-/
-cd0292-building-a-server-project-starter
-Public
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-cd0292-building-a-server-project-starter/.gitignore
-@ome94
-ome94 Initial commit
-Latest commit 489efa9 25 minutes ago
- History
- 1 contributor
-104 lines (76 sloc)  1.57 KB
-
 # Logs
 logs
 *.log
@@ -111,6 +81,8 @@ typings/
 # Nuxt.js build / generate output
 .nuxt
 dist
+
+assets/images/thumbs
 
 # Gatsby files
 .cache/

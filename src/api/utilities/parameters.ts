@@ -2,18 +2,13 @@ import { Request, Response } from 'express';
 import { promises as fs } from 'fs';
 import path from 'path';
 
-interface queryParam {
-  filename: string;
-  width?: string | number;
-  height?: string | number;
-}
-
 const checkParams = async (req: Request, res: Response, next: Function) => {
   const usrImg = req.query.filename;
   const imgDir = path.resolve('./assets/images/full');
   try {
     const imageNames = await fs.readdir(imgDir);
 
+    // Check if filename if supplied is valid/available
     if (!(req.query && usrImg && imageNames.includes(<string>usrImg))) {
       if (!usrImg) {
         res
@@ -30,4 +25,4 @@ const checkParams = async (req: Request, res: Response, next: Function) => {
   }
 };
 
-export { queryParam, checkParams };
+export { checkParams };

@@ -8,7 +8,7 @@ describe('Test /api/images route', () => {
   describe('Test valid requests', () => {
     const filename = 'fjord.jpg';
 
-    it(`Expects GET /api/images?filename=valid-file.jpg to be 200`, async () => {
+    it(`Expects GET /api/images?filename=${filename} to be 200`, async () => {
       const response = await request.get(`/api/images?filename=${filename}`);
       expect(response.status).toBe(200);
     });

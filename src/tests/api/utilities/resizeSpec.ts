@@ -2,7 +2,7 @@ import path from 'path';
 import { promises as fs } from 'fs';
 import sharp from 'sharp';
 
-import resize from '../../../api/utilities/resize';
+import { resize } from '../../../api/utilities/resize';
 
 describe('Test function resize()', () => {
   const fullImgDir = path.join(__dirname, '../../../../assets/images/full');

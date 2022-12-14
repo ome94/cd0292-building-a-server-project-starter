@@ -28,10 +28,13 @@ const resize = async (
   width = width || newImage.width;
   height = height || newImage.height;
   const [newImageName, ext] = filename.split('.');
-  const newPath = `${thumbsDir}/${newImageName}${width}x${height}.${ext}`;
+  const newPath = path.join(
+    thumbsDir,
+    `${newImageName}${width}x${height}.${ext}`
+  );
   await fs.promises.rename(tmpName, newPath);
 
   return newPath;
 };
 
-export default resize;
+export { fullImgDir, thumbsDir, resize };

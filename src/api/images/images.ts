@@ -1,19 +1,16 @@
 import express from 'express';
 
 import { checkParams } from '../utilities/parameters';
-import resize from '../utilities/resize';
+import { fetchImgPath, cleanCache } from '../utilities/cache';
 
 const images = express.Router();
 
 images.get('/', checkParams, async (req, res) => {
-  const filename = req.query.filename;
-  const width = parseInt((<unknown>req.query.width) as string) || undefined;
-  const height = parseInt((<unknown>req.query.height) as string) || undefined;
   try {
-    const newImagePath = await resize(<string>filename, width, height);
-    res.sendFile(newImagePath);
+    const imgPath = await fetchImgPath(req);
+    res.sendFile((<unknown>imgPath) as string);
+    await cleanCache();
   } catch (err) {
-    console.log(err);
     res.send('Resize failed');
   }
 });

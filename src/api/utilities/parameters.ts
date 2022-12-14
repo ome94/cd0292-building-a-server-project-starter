@@ -8,7 +8,7 @@ const checkParams = async (req: Request, res: Response, next: Function) => {
   try {
     const imageNames = await fs.readdir(imgDir);
 
-    // Check if filename if supplied is valid/available
+    // Check filename if supplied is valid/available
     if (!(req.query && usrImg && imageNames.includes(<string>usrImg))) {
       if (!usrImg) {
         res

@@ -2,7 +2,11 @@ import { Request, Response } from 'express';
 import { promises as fs } from 'fs';
 import path from 'path';
 
-const checkParams = async (req: Request, res: Response, next: Function) => {
+const checkParams = async (
+  req: Request,
+  res: Response,
+  next: (req?: Request, res?: Response) => void
+): Promise<void> => {
   const usrImg = req.query.filename;
   const imgDir = path.resolve('./assets/images/full');
   try {

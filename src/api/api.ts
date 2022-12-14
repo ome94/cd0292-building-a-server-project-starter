@@ -1,9 +1,9 @@
-import express from 'express';
+import { Request, Response, Router } from 'express';
 import images from './images/images';
 
-const api = express.Router();
+const api = Router();
 
-api.get('/', (req, res) => {
+api.get('/', (req: Request, res: Response): void => {
   res
     .status(400)
     .send(

@@ -7,17 +7,19 @@ import { thumbsDir } from '../../../api/utilities/resize';
 const request = supertest(app);
 
 describe('Test /api/images route', () => {
+  const filename = 'fjord.jpg';
   describe('Test valid requests', () => {
-    const filename = 'fjord.jpg';
-
-    it(`Expects GET /api/images?filename=${filename} to be 200`, async () => {
-      const response = await request.get(`/api/images?filename=${filename}`);
+    const width = 500;
+    const height = 350;
+    const url = `/api/images?filename=${filename}&width=${width}&height=${height}`;
+    it(`Expects GET ${url} to be 200`, async () => {
+      const response = await request.get(url);
       expect(response.status).toBe(200);
     });
 
-    it(`Expects GET /api/images?filename=${filename} image response`, async () => {
-      const response = await request.get(`/api/images?filename=${filename}`);
-      expect(response.type).toEqual('image/jpeg');
+    it(`Expects GET ${url} image/jpeg response`, async () => {
+      const response = await request.get(url);
+      expect(response.type).toBe('image/jpeg');
     });
   });
 
@@ -25,6 +27,17 @@ describe('Test /api/images route', () => {
     it('Expects GET /api/images to be 400', async () => {
       const response = await request.get('/api/images');
       expect(response.status).toBe(400);
+    });
+
+    it(`Expects GET /api/images?filename=${filename} to be 200`, async () => {
+      const response = await request.get(`/api/images?filename=${filename}`);
+      expect(response.status).toBe(400);
+    });
+
+    it(`Expects GET /api/images?filename=${filename} image response`, async () => {
+      const hint = 'Please use a number greater than 0 for width and height.';
+      const response = await request.get(`/api/images?filename=${filename}`);
+      expect(response.text).toContain(hint);
     });
 
     it(`Expects GET /api/images?filename=invalid.jpg to be 404`, async () => {
@@ -39,24 +52,26 @@ describe('Test /api/images route', () => {
   describe('Tests for Caching', () => {
     let cacheSize: number;
     const CACHE_LIMIT = 30;
-    const filename = 'fjord.jpg';
 
     beforeAll(async () => {
       const maxRequest = 40;
-      for (let i = 0, width = 100; i <= maxRequest; i++) {
+      for (let i = 0, width = 100, height = 1200; i <= maxRequest; i++) {
+        await request.get(
+          `/api/images?filename=${filename}&width=${width}&height=${height}`
+        );
         if (i < maxRequest / 2) {
-          await request.get(`/api/images?filename=${filename}&width=${width}`);
           width += 50;
+          height -= 50;
         } else {
-          await request.get(`/api/images?filename=${filename}&height=${width}`);
           width -= 50;
+          height += 50;
         }
       }
 
       cacheSize = (await fs.readdir(thumbsDir)).length;
     });
 
-    it('Expects cache size to be less than or equal to CACHE_LIMIT', () => {
+    it(`Expects cache size to be less than or equal to CACHE_LIMIT(${CACHE_LIMIT})`, () => {
       expect(cacheSize).toBeLessThanOrEqual(CACHE_LIMIT);
     });
   });
